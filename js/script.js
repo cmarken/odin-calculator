@@ -56,9 +56,13 @@ function operate(num1, num2, operation) {
         case 'add':
             return add(num1, num2);
             break;
+        // If there is no operation selected
+        case null:
+            return displayNumber;
+            break;
         default:
-            console.error('No such operator.');
-    }
+            console.error('Error. Operate was not called with operation or with null.')
+    }   
 }
 
 
@@ -129,8 +133,10 @@ document.querySelectorAll('.operator')
         });
     });
 
-document.querySelector('.equal').addEventListener('click', (e) => {
-    displayNumber = operate(previousNumber, displayNumber, currentOperator);
-    updateDisplay();
-    currentOperator = null;
-});
+document.querySelector('.equal').
+    addEventListener('click', (e) => {
+        displayNumber = operate(previousNumber, displayNumber, currentOperator);
+        previousNumber = null;
+        updateDisplay();
+        operatorWasLastCommand = true;
+    });
