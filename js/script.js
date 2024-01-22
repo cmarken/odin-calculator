@@ -31,11 +31,32 @@ subtract = function (term1, term2) {
         // call updateDisplay() with the result
     // else
         // do nothing
+function operate(e) {
+    currentOperator = e.srcElement.value;
+    currentNumber = displayNumber;
+
+    if (previousNumber && currentNumber) {
+        switch (currentOperator) {
+            case 'add':
+                displayNumber = add(previousNumber, currentNumber);
+                break;
+            default:
+                console.error('No such operator.');
+        }
+        previousNumber = currentNumber;
+        currentNumber = displayNumber;
+        updateDisplay();
+    } else {
+        previousNumber = currentNumber;
+    }
+}
+
 
 // updateDisplay()
     // set the display element to currentNumber
 function updateDisplay() {
     document.querySelector('display').textContent = displayNumber;
+    currentOperator = null;
 }
 
 
@@ -44,6 +65,7 @@ function updateDisplay() {
     // highlight the button in another color
     // if there is both a currentNumber and a previousNumber
         // call operate() with previousNumber, currentNumber and the operator. 
+
 
 // onDigitClick()
         // if currentNumber === previousNumber 
@@ -89,5 +111,9 @@ document.querySelectorAll('.digit')
     });
 
 // add click eventListener to the operators to call onOperatorClick with currentNumber, previousNumber and the value of the element (operator)
-document.querySelector('#operator-add').addEventListener('click', () => console.log('Pressed +'));
-document.querySelector('#equal').addEventListener('click', () => console.log('Pressed ='));
+document.querySelectorAll('.operator')
+    .forEach((digitBtn) => {
+        digitBtn.addEventListener('click', operate);
+    });
+
+//document.querySelector('#equal').addEventListener('click', () => console.log('Pressed ='));
