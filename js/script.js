@@ -13,8 +13,8 @@ subtract = function (term1, term2) {
 // divide()
 
 // operate()
-    // if there is both a currentNumber and previousNumber
-        // convert currentNumber and previousNumber to integers
+    // if there is both a displayNumber and previousNumber
+        // convert displayNumber and previousNumber to integers
         // create variable result
         // check which operation
             // case add:
@@ -27,48 +27,57 @@ subtract = function (term1, term2) {
                 // call divide with num1, num2 and set return value to the result
             // case other case:
                 // show error alert
-        // set currentNumber to the result
+        // set displayNumber to the result
         // call updateDisplay() with the result
     // else
         // do nothing
-function operate(e) {
+/*function operate(e) {
     currentOperator = e.srcElement.value;
-    currentNumber = displayNumber;
+    displayNumber = displayNumber;
 
-    if (previousNumber && currentNumber) {
+    if (previousNumber && displayNumber) {
         switch (currentOperator) {
             case 'add':
-                displayNumber = add(previousNumber, currentNumber);
+                displayNumber = add(previousNumber, displayNumber);
                 break;
             default:
                 console.error('No such operator.');
         }
-        previousNumber = currentNumber;
-        currentNumber = displayNumber;
+        previousNumber = displayNumber;
+        displayNumber = displayNumber;
         updateDisplay();
     } else {
-        previousNumber = currentNumber;
+        previousNumber = displayNumber;
+    }
+}*/
+
+function operate(num1, num2, operation) {
+    switch (operation) {
+        case 'add':
+            return add(num1, num2);
+            break;
+        default:
+            console.error('No such operator.');
     }
 }
 
 
 // updateDisplay()
-    // set the display element to currentNumber
+    // set the display element to displayNumber
 function updateDisplay() {
     document.querySelector('display').textContent = displayNumber;
-    currentOperator = null;
 }
 
 
 // onOperatorClick()
     // set currentOperation to the value of operation (add, substract ...)
     // highlight the button in another color
-    // if there is both a currentNumber and a previousNumber
-        // call operate() with previousNumber, currentNumber and the operator. 
+    // if there is both a displayNumber and a previousNumber
+        // call operate() with previousNumber, displayNumber and the operator. 
 
 
 // onDigitClick()
-        // if currentNumber === previousNumber 
+        // if displayNumber === previousNumber 
             // set it to the new digit that was clicked
     // else
 /**** Not sure about this
@@ -81,27 +90,27 @@ function updateDisplay() {
         // append the new number to the end of the string
 ****/
 function onDigitClick(e) {
-//    console.log(e.srcElement.value);
-    if (displayNumber === 0) {
-        displayNumber = +e.srcElement.value;
+    if (operatorWasLastCommand) {
+        displayNumber = +e.target.value;
     } else {
         // Make the number a string so we can add the last digit inputed to the end
         displayNumber = `${displayNumber}${e.srcElement.value}`;
     }
+    operatorWasLastCommand = false;
     updateDisplay();        
 }
 
 
 // clearCalculator()
     // set currentOperator null
-    // set currentNumber and previousNumber and set to null
+    // set displayNumber and previousNumber and set to null
     // call updateDisplay()
 
 // create currentOperator
-// create currentNumber and previousNumber
+// create displayNumber and previousNumber
 // create displayNumber
 let currentOperator = null;
-let currentNumber = null;
+let operatorWasLastCommand = true;
 let previousNumber = null;
 let displayNumber = 0;
 
@@ -110,10 +119,18 @@ document.querySelectorAll('.digit')
         digitBtn.addEventListener('click', onDigitClick);
     });
 
-// add click eventListener to the operators to call onOperatorClick with currentNumber, previousNumber and the value of the element (operator)
+// add click eventListener to the operators to call onOperatorClick with displayNumber, previousNumber and the value of the element (operator)
 document.querySelectorAll('.operator')
     .forEach((digitBtn) => {
-        digitBtn.addEventListener('click', operate);
+        digitBtn.addEventListener('click', (e) => {
+            currentOperator = e.target.value;
+            previousNumber = displayNumber;
+            operatorWasLastCommand = true;
+        });
     });
 
-//document.querySelector('#equal').addEventListener('click', () => console.log('Pressed ='));
+document.querySelector('.equal').addEventListener('click', (e) => {
+    displayNumber = operate(previousNumber, displayNumber, currentOperator);
+    updateDisplay();
+    currentOperator = null;
+});
