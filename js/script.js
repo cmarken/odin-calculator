@@ -34,14 +34,18 @@ subtract = function (term1, term2) {
 
 // updateDisplay()
     // set the display element to currentNumber
+function updateDisplay() {
+    document.querySelector('display').textContent = displayNumber;
+}
 
-// onOperatorClick(operation)
+
+// onOperatorClick()
     // set currentOperation to the value of operation (add, substract ...)
     // highlight the button in another color
     // if there is both a currentNumber and a previousNumber
         // call operate() with previousNumber, currentNumber and the operator. 
 
-// onNumberClick()
+// onDigitClick()
         // if currentNumber === previousNumber 
             // set it to the new digit that was clicked
     // else
@@ -54,6 +58,17 @@ subtract = function (term1, term2) {
     // else
         // append the new number to the end of the string
 ****/
+function onDigitClick(e) {
+//    console.log(e.srcElement.value);
+    if (displayNumber === 0) {
+        displayNumber = +e.srcElement.value;
+    } else {
+        // Make the number a string so we can add the last digit inputed to the end
+        displayNumber = `${displayNumber}${e.srcElement.value}`;
+    }
+    updateDisplay();        
+}
+
 
 // clearCalculator()
     // set currentOperator null
@@ -63,6 +78,16 @@ subtract = function (term1, term2) {
 // create currentOperator
 // create currentNumber and previousNumber
 // create displayNumber
-// add click eventListener to digits 0 ... 9 to call onNumberClick with the value of the button element
+let currentOperator = null;
+let currentNumber = null;
+let previousNumber = null;
+let displayNumber = 0;
+
+document.querySelectorAll('.digit')
+    .forEach((digitBtn) => {
+        digitBtn.addEventListener('click', onDigitClick);
+    });
+
 // add click eventListener to the operators to call onOperatorClick with currentNumber, previousNumber and the value of the element (operator)
-// call clearCalculator()
+document.querySelector('#operator-add').addEventListener('click', () => console.log('Pressed +'));
+document.querySelector('#equal').addEventListener('click', () => console.log('Pressed ='));
