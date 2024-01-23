@@ -5,19 +5,96 @@
     box-sizing: border-box;
 }
 
-/* SETTINGS (dynamic colors and so on)*/
+h1 {
+    font-size: 80px;
+}
 
+/* SETTINGS (dynamic colors and so on)*/
+:root {
+    --button-unit: 60px; 
+  }
 
 /* STRUCTURE */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
+main {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
 
 /* TYPOGRAPHY */
+display {
+    font-size: 40px;
+}
 
 
 /* MODULES */
-
+.heading {
+    text-align: center;
+}
 
 /* COMPONENTS */
+calculator {
+    border: 5px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.calculatorRow {
+    display: flex;
+    flex: 1;
+}
+
+display {
+    width: calc(var(--button-unit)*4);
+    height: calc(var(--button-unit)*1.2);
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding-right: 5px;
+    border: 2px solid black;
+    background-color: bisque;
+}
+
+.ac {
+    width: calc(var(--button-unit)*2);
+    height: var(--button-unit);
+}
+
+.invert {
+    width: var(--button-unit);
+    height: var(--button-unit);
+}
+
+.operator {
+    width: var(--button-unit);
+    height: var(--button-unit);
+}
+
+.digit {
+    width: var(--button-unit);
+    height: var(--button-unit);
+}
+
+#zero {
+    width: calc(var(--button-unit)*3);
+    height: var(--button-unit);
+}
+
+.equal {
+    width: var(--button-unit);
+    height: var(--button-unit);
+}
 
 
 /* DEV SETTINGS */
+
+.calculatorRow {
+/*    border: 2px solid purple; */
+}
